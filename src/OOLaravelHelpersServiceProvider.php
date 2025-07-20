@@ -4,13 +4,7 @@ namespace OnaOnbir\OOLaravelHelpers;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
-use OnaOnbir\OOSubscription\Console\Commands\CheckSubscriptionLifecycle;
-use OnaOnbir\OOSubscription\Console\Commands\ResetFeatureUsages;
-use OnaOnbir\OOSubscription\Models\ModelPlan;
-use OnaOnbir\OOSubscription\Observers\SubscriptionObserver;
-use OnaOnbir\OOSubscription\Services\FeatureResetService;
-use OnaOnbir\OOSubscription\Services\PaymentService;
-use OnaOnbir\OOSubscription\Services\SubscriptionService;
+
 
 class OOLaravelHelpersServiceProvider extends ServiceProvider
 {
@@ -19,7 +13,10 @@ class OOLaravelHelpersServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/'.$this->packageName.'.php',
+            $this->packageName
+        );
     }
 
     public function boot(): void
