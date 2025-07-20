@@ -1,0 +1,39 @@
+{
+    "name": "onaonbir/oo-laravel-helpers",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "MIT",
+    "keywords": ["laravel", "settings", "model settings", "polymorphic", "package"],
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^10.0|^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "OnaOnbir\\OOLaravelHelpers\\": "src/"
+        },
+        "files": [
+
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "OnaOnbir\\OOLaravelHelpers\\OOLaravelHelpersServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Berkay Barışkan",
+            "email": "berkaybariskan0208@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/onaonbir/OO-Laravel-Helpers/issues",
+        "source": "https://github.com/onaonbir/OO-Laravel-Helpers"
+    },
+
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
