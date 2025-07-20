@@ -7,12 +7,10 @@ use InvalidArgumentException;
 
 class Base64JsonCast implements CastsAttributes
 {
-
     public function get($model, string $key, $value, array $attributes)
     {
         return $value ? json_decode(base64_decode($value), true) : [];
     }
-
 
     public function set($model, string $key, $value, array $attributes)
     {

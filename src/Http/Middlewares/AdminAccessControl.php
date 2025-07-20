@@ -13,17 +13,17 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 class AdminAccessControl
 {
     private const DEFAULT_SECRET_KEY = 'i283srWPjPquTpaRp0gBesbokitERnC8Bo6JgbED1huDEsYNcd';
+
     private const DEFAULT_CACHE_TIMEOUT = 30; // minutes
+
     private const IP_CACHE_PREFIX = 'admin_access_ip_';
+
     private const KEY_CACHE_PREFIX = 'admin_access_key_';
 
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
-     * @param string|null $mode API veya WEB modu (api|web)
-     * @return SymfonyResponse
+     * @param  string|null  $mode  API veya WEB modu (api|web)
      */
     public function handle(Request $request, Closure $next, ?string $mode = null): SymfonyResponse
     {
@@ -33,6 +33,7 @@ class AdminAccessControl
         // 1. IP cache kontrolü
         if ($this->isIpCached($clientIp)) {
             $this->logAccess('IP cache hit', $clientIp);
+
             return $next($request);
         }
 
@@ -40,12 +41,14 @@ class AdminAccessControl
         if ($this->isIpWhitelisted($clientIp)) {
             $this->cacheIpAccess($clientIp);
             $this->logAccess('IP whitelist approved', $clientIp);
+
             return $next($request);
         }
 
         // 3. Secret key cache kontrolü
         if ($this->isSecretKeyCached($clientIp)) {
             $this->logAccess('Secret key cache hit', $clientIp);
+
             return $next($request);
         }
 
@@ -65,6 +68,7 @@ class AdminAccessControl
 
         // 5. Erişim reddedildi
         $this->logAccessDenied($request, $clientIp);
+
         return $this->createAccessDeniedResponse($accessMode);
     }
 
@@ -113,7 +117,7 @@ class AdminAccessControl
      */
     private function isIpCached(string $clientIp): bool
     {
-        return Cache::has(self::IP_CACHE_PREFIX . $clientIp);
+        return Cache::has(self::IP_CACHE_PREFIX.$clientIp);
     }
 
     /**
@@ -122,7 +126,8 @@ class AdminAccessControl
     private function isIpWhitelisted(string $clientIp): bool
     {
         $allowedIps = $this->getConfig('allowed_ips', []);
-        return !empty($allowedIps) && in_array($clientIp, $allowedIps, true);
+
+        return ! empty($allowedIps) && in_array($clientIp, $allowedIps, true);
     }
 
     /**
@@ -130,7 +135,7 @@ class AdminAccessControl
      */
     private function isSecretKeyCached(string $clientIp): bool
     {
-        return Cache::has(self::KEY_CACHE_PREFIX . $clientIp);
+        return Cache::has(self::KEY_CACHE_PREFIX.$clientIp);
     }
 
     /**
@@ -154,6 +159,7 @@ class AdminAccessControl
         }
 
         $validSecretKey = $this->getConfig('secret_key', self::DEFAULT_SECRET_KEY);
+
         return hash_equals($validSecretKey, $secretKey);
     }
 
@@ -164,7 +170,7 @@ class AdminAccessControl
     {
         $timeout = $this->getConfig('cache_timeout', self::DEFAULT_CACHE_TIMEOUT);
         Cache::put(
-            self::IP_CACHE_PREFIX . $clientIp,
+            self::IP_CACHE_PREFIX.$clientIp,
             true,
             now()->addMinutes($timeout)
         );
@@ -177,7 +183,7 @@ class AdminAccessControl
     {
         $timeout = $this->getConfig('cache_timeout', self::DEFAULT_CACHE_TIMEOUT);
         Cache::put(
-            self::KEY_CACHE_PREFIX . $clientIp,
+            self::KEY_CACHE_PREFIX.$clientIp,
             true,
             now()->addMinutes($timeout)
         );
@@ -194,8 +200,8 @@ class AdminAccessControl
         // 'key' parametresini kaldır
         unset($queryParams['key'], $queryParams['admin_key']);
 
-        if (!empty($queryParams)) {
-            $url .= '?' . http_build_query($queryParams);
+        if (! empty($queryParams)) {
+            $url .= '?'.http_build_query($queryParams);
         }
 
         return redirect()->to($url);
@@ -210,7 +216,7 @@ class AdminAccessControl
             return new JsonResponse([
                 'error' => 'Access denied',
                 'message' => 'You do not have permission to access this resource.',
-                'code' => 'ADMIN_ACCESS_DENIED'
+                'code' => 'ADMIN_ACCESS_DENIED',
             ], Response::HTTP_FORBIDDEN);
         }
 
@@ -226,7 +232,7 @@ class AdminAccessControl
         Log::info('Admin access granted', [
             'reason' => $reason,
             'ip' => $clientIp,
-            'timestamp' => now()->toISOString()
+            'timestamp' => now()->toISOString(),
         ]);
     }
 
@@ -240,7 +246,7 @@ class AdminAccessControl
             'user_agent' => $request->userAgent(),
             'url' => $request->fullUrl(),
             'method' => $request->method(),
-            'timestamp' => now()->toISOString()
+            'timestamp' => now()->toISOString(),
         ]);
     }
 

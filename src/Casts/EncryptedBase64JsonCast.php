@@ -8,13 +8,11 @@ use InvalidArgumentException;
 
 class EncryptedBase64JsonCast implements CastsAttributes
 {
-
     public function get($model, string $key, $value, array $attributes)
     {
 
         return $value ? json_decode(base64_decode(Crypt::decryptString($value)), true) : [];
     }
-
 
     public function set($model, string $key, $value, array $attributes)
     {

@@ -2,13 +2,10 @@
 
 namespace OnaOnbir\OOLaravelHelpers;
 
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
-
 
 class OOLaravelHelpersServiceProvider extends ServiceProvider
 {
-
     private string $packageName = 'oo-laravel-helpers';
 
     public function register(): void
@@ -19,10 +16,5 @@ class OOLaravelHelpersServiceProvider extends ServiceProvider
         );
     }
 
-    public function boot(): void
-    {
-
-    }
-
-
+    public function boot(): void {}
 }
