@@ -1,7 +1,7 @@
 {
     "name": "onaonbir/oo-laravel-helpers",
     "type": "library",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "license": "MIT",
     "keywords": ["laravel", "package"],
     "require": {

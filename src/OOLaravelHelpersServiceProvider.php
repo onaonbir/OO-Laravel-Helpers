@@ -44,7 +44,7 @@ class OOLaravelHelpersServiceProvider extends ServiceProvider
     protected function registerBladeDirective(string $prefix, string $method): void
     {
         Blade::directive($prefix.$method, function ($data) use ($method) {
-            return "<?php echo OnaOnbir\\OOReadable\\Readable::get{$method}($data); ?>";
+            return "<?php echo OnaOnbir\OOLaravelHelpers\Support\\Readable::get{$method}($data); ?>";
         });
     }
 }
