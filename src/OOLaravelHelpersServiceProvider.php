@@ -17,10 +17,10 @@ class OOLaravelHelpersServiceProvider extends ServiceProvider
         );
     }
 
-    public function boot(): void {
+    public function boot(): void
+    {
         $this->bootReadableBladeDirectives();
     }
-
 
     public function bootReadableBladeDirectives()
     {
